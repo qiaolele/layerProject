@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="lay/css/modules/laydate/default/laydate.css">
+    <title>layui——laydate日期时间</title>
+    <style>
+        #test1,#test2,#test3,#test4{
+            width: 252px;
+            padding:8px 10px;
+            border:1px solid #ccc;
+            background:#fff;
+            margin-right:40px;
+
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <input type="text" placeholder="请选择日期" id="test1">
+        <input type="text" placeholder="请选择日期" id="test2">
+        <input type="text" placeholder="请选择日期" id="test3">
+        <input type="text" placeholder="请选择日期" id="test4">
+    </div>
+</body>
+<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="lay/modules/laydate.js"></script>
+<script type="text/javascript">
+    //限定可选日期
+    var ins22 = laydate.render({
+        elem: '#test1',
+        min: '2016-10-14',
+        max: '2080-10-14',
+        ready: function(){
+            ins22.hint('日期可选值设定在 <br> 2016-10-14 到 2080-10-14');
+        }
+    });
+    //执行一个laydate实例
+    laydate.render({
+        elem: '#test2', //指定元素
+        format: 'yyyy-MM-dd',//自定义格式
+        btns: ['clear', 'confirm'],
+        theme: '#393D49'
+
+    });
+    //前后若干天可选，这里以7天为例
+    laydate.render({
+        elem: '#test-limit2',
+        min: -7,
+        max: 7,
+    });
+    //不出现底部栏
+    laydate.render({
+        elem: '#test3'
+        ,showBottom: false
+    });
+    //只出现确定按钮
+    laydate.render({
+        elem: '#test4'
+        ,btns: ['confirm']
+    });
+    //自定义颜色
+    laydate.render({
+        elem: '#test30'
+        ,theme: '#393D49'
+    });
+</script>
+</html>

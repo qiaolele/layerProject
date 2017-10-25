@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="lay/css/layui.css">
+    <link rel="stylesheet" href="lay/css/modules/layer/default/layer.css">
+
+    <title>layui——layer弹窗</title>
+</head>
+<body>
+    <div>
+        <button id="test1">黑色透明弹窗按钮</button>
+        <button id="test2">弹出一个页面层弹窗按钮</button>
+        <button id="test4">弹出一个loading层弹窗按钮</button>
+        <button id="test5">弹出一个tips层弹窗按钮</button>
+    </div>
+
+</body>
+<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="layui.js"></script>
+<script type="text/javascript" src="lay/modules/layer.js"></script>
+<script type="text/javascript">
+
+    //弹出一个提示层——黑色透明弹窗
+    $('#test1').on('click', function(){
+        layer.msg('hello');
+    });
+    //弹出一个页面层
+    $('#test2').on('click', function(){
+        layer.open({
+            type: 1,
+            area: ['600px', '360px'],
+            shadeClose: true, //点击遮罩关闭
+            content: '\<\div style="padding:20px;">自定义内容\<\/div>'
+        });
+    });
+    //弹出一个iframe层
+    $('#parentIframe').on('click', function(){
+        layer.open({
+            type: 2,
+            title: 'iframe父子操作',
+            maxmin: true,
+            shadeClose: true, //点击遮罩关闭层
+            area : ['800px' , '520px'],
+            content: 'test/iframe.html'
+        });
+    });
+    //我被改变了
+
+    //弹出一个loading层
+    $('#test4').on('click', function(){
+        var ii = layer.load();
+        //此处用setTimeout演示ajax的回调
+        setTimeout(function(){
+            layer.close(ii);
+        }, 1000);
+    });
+
+    //弹出一个tips层
+    $('#test5').on('click', function(){
+        layer.tips('Hello tips!', '#test5');
+    });
+
+    //Ajax获取
+    var _getBloEdit = function(){
+        //编辑日志了
+        var _title = $("#blogTitle").val();
+        $.ajax({
+            url: BASE_API_URL + GET_BLOG_EDIT,
+            data: {
+                blogId: _blogId,
+                title: _title,
+            },
+            type: "POST",
+            dataType: "jsonp",
+            beforeSend:function(){
+                layer.load(0, { shade: [0.3,'#000']});
+            },
+            success: function (d) {
+                layer.closeAll();
+                if (d.result == 1) {
+                    //发布日志成功弹窗
+                    layer.msg('发布日志成功', {
+                        time: TIME
+                    });
+                    //发布日志成功跳转到学习日志页面
+                    setTimeout(function(){
+                        window.location ='learningDiaries.html';
+                    }, 3000);
+                } else {
+                    layer.msg('<div>' + d.msg + '</div>', {time: TIME});
+                }
+            },
+            error: function (d) {
+                layer.closeAll();
+                layer.msg('<div>出错了，稍后再试</div>', {time: TIME});
+            }
+        })
+    }
+
+</script>
+</html>
